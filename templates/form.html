@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Form</title>
+</head>
+
+<body>
+    <h2>Student Feedback Form - Updated with ngrok</h2>
+
+    <form action="/submit" method="POST">
+        <p><b>Last Updated:</b> Version 4 </p>
+        Name: <input title="name" type="text" name="name" required><br><br>
+
+        Rating (1-5):
+        <input title="rating" type="number" name="rating" min="1" max="5" required><br><br>
+
+        Comment:
+        <textarea title="comment" name="comment" required></textarea><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+
+</html>
