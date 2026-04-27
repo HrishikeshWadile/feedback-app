@@ -41,16 +41,19 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''
-                echo "Waiting for app to start..."
-                sleep 5
+                echo "Waiting for Flask app..."
 
-                for i in {1..10}; do
-                curl -f http://localhost:5000 && exit 0
-                echo "Retrying in 3s..."
-                sleep 3
+                for i in {1..20}; do
+                    if curl -s http://localhost:5000 > /dev/null; then
+                        echo "App is UP!"
+                        exit 0
+                    fi
+                    echo "Retry $i..."
+                    sleep 2
                 done
 
-                echo "App failed to respond"
+                echo "App failed. Logs:"
+                docker logs feedback-app
                 exit 1
                 '''
             }
