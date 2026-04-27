@@ -40,7 +40,19 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh "curl -f http://localhost:5000"
+                sh '''
+                echo "Waiting for app to start..."
+                sleep 5
+
+                for i in {1..10}; do
+                curl -f http://localhost:5000 && exit 0
+                echo "Retrying in 3s..."
+                sleep 3
+                done
+
+                echo "App failed to respond"
+                exit 1
+                '''
             }
         }
     }
