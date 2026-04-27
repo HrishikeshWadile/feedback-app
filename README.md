@@ -196,3 +196,77 @@ Webhook → instant but needs public URL (ngrok)
 
 👉 Works for both Poll SCM + Webhook
 👉 Fully exam-ready setup
+
+
+. Git is not properly configured in Jenkins
+
+You can see this clearly:
+
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+
+This means Jenkins doesn’t know which Git installation to use.
+
+✅ Fix
+
+Go to:
+
+Jenkins → Manage Jenkins → Tools → Git installations
+
+Then:
+
+Click Add Git
+Name: Default
+Path to Git executable:
+Linux Docker Jenkins: /usr/bin/git
+Or just git (if PATH is set)
+
+Save.
+
+🔴 2. Git is likely NOT installed inside Jenkins container (very common)
+
+The error:
+
+fatal: not in a git directory
+
+often appears when Jenkins tries to run git commands but git binary is missing or broken inside container.
+
+✅ Fix (Docker Jenkins case)
+
+Run this inside your Jenkins container:
+
+docker exec -it jenkins-container bash
+git --version
+
+If it says command not found → install git:
+
+For Debian/Ubuntu-based Jenkins image:
+apt update
+apt install -y git
+
+Then restart Jenkins container:
+
+docker restart jenkins-container
+
+
+✅ Correct setup (Docker / Linux Jenkins recommended)
+Go here:
+
+Manage Jenkins → Tools → Git installations
+
+Edit like this:
+
+✔️ Recommended config
+Name: Default
+Path to Git executable:
+/usr/bin/git
+🔍 How to confirm correct path (IMPORTANT)
+
+Run inside Jenkins container:
+
+docker exec -it jenkins-container bash
+which git
+
+You’ll get something like:
+
+/usr/bin/git
