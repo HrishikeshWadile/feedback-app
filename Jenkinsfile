@@ -16,7 +16,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/HrishikeshWadile/feedback-form'
+                    url: 'https://github.com/HrishikeshWadile/feedback-app'
             }
         }
 
